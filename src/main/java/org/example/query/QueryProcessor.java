@@ -1,8 +1,9 @@
 package org.example.query;
 
 import org.example.index.CsvIndex;
-
 import org.example.result.SearchResult;
+import org.example.util.CsvUtils;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
@@ -37,9 +38,11 @@ public class QueryProcessor {
                         String line = raf.readLine();
                         String[] parts = line.split(",", -1);
                         if (parts.length < columnId) continue;
-                        String val = parts[columnId - 1].replace("\"", "");
+                        String val = CsvUtils.stripQuotes(parts[columnId - 1]);
                         if (val.startsWith(query)) {
-                            ids.add(Integer.parseInt(parts[0].replace("\"", "")));
+                            try {
+                                ids.add(Integer.parseInt(CsvUtils.stripQuotes(parts[0])));
+                            } catch (NumberFormatException ignored) {}
                         }
                     }
                 }

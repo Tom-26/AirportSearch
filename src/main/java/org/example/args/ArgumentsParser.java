@@ -21,5 +21,11 @@ public class ArgumentsParser {
     public String getDataFile() { return args.get("--data"); }
     public String getInputFile() { return args.get("--input-file"); }
     public String getOutputFile() { return args.get("--output-file"); }
-    public int getIndexedColumnId() { return Integer.parseInt(args.get("--indexed-column-id")); }
+    public int getIndexedColumnId() {
+        try {
+            return Integer.parseInt(args.get("--indexed-column-id"));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Недопустимый аргумент --indexed-column-id: должно быть целое число.");
+        }
+    }
 }

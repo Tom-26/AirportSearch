@@ -12,4 +12,16 @@ public class SearchResult {
         this.result = result;
         this.time = time;
     }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public List<Integer> getResult() {
+        return result;
+    }
+
+    public long getTime() {
+        return time;
+    }
 }
