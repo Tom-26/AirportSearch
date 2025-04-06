@@ -17,9 +17,14 @@ public class IndexBuilder {
             String line;
             while ((line = raf.readLine()) != null) {
                 String[] parts = line.split(",", -1);
-                if (parts.length < columnId) continue;
+                if (parts.length < columnId) {
+                    System.out.println("Пропущена строка (недостаточно колонок): " + line);
+                    offset = raf.getFilePointer(); // важно для правильного позиционирования следующей строки
+                    continue;
+                }
                 String val = CsvUtils.stripQuotes(parts[columnId - 1]);
                 String prefix = val.length() > 6 ? val.substring(0, 6) : val;
+                System.out.println("Добавляем в индекс: prefix=" + prefix + ", offset=" + offset + ", val=" + val);
                 index.add(prefix, offset);
                 offset = raf.getFilePointer();
             }
